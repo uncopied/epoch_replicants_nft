@@ -1,0 +1,1 @@
+ goal app update --app-id 39867091 --from 7IGM4UP7YXRP6ANWNVTZWSQL27L6ZFCK2H7KLN2N3HIKIJPJUWCQVJ67NA --approval-prog ../contracts/stateful.teal --clear-prog ../contracts/clear.teal
