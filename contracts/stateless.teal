@@ -7,11 +7,11 @@ global ZeroAddress
 ==
 &&
 txn  XferAsset
-int 40578704 
+int 40925564 
 ==
 &&
 gtxn 1 ApplicationID
-int 40578988 
+int 40925638 
 ==
 &&
 return
