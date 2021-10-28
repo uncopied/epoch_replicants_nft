@@ -388,7 +388,7 @@ store 11
 int 7777
 store 12
 load 10
-int 999930
+int 2424000000
 >=
 &&
 gtxn 2 Amount
