@@ -1,0 +1,666 @@
+<html>
+    <head>
+        <title>Freeport Demp</title>
+        <script src="https://unpkg.com/algosdk@latest"></script>
+        <script src="./js/buffer.js"></script>
+        <script src="./js/myalgo.js"></script>
+       
+        <style>
+            .algoLoader {
+                color: #000000;
+                font-size: 20px;
+                margin: 100px auto;
+                width: 1em;
+                height: 1em;
+                border-radius: 50%;
+                position: relative;
+                text-indent: -9999em;
+                -webkit-animation: load4 1.3s infinite linear;
+                animation: load4 1.3s infinite linear;
+                -webkit-transform: translateZ(0);
+                -ms-transform: translateZ(0);
+                transform: translateZ(0);
+}
+@-webkit-keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+@keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+
+            .algoCardContainer{
+                border: solid 2px #ccc;
+                width: 40%;
+                height:400px;
+                position: absolute;
+                left:30%;
+                top:25%;
+            }
+            .algoInfoText{
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <button id="acquireReplicantNft">Pay</button>
+<!-- 
+        <div class="algoCardContainer">
+            <div class="algoLoader"></div>
+            <p class="algoInfoText">NFT Acquisition in Progress,please respond to Algosiogner Appropriatey</p>
+        </div> -->
+    </body>
+
+    <script>
+    window.addEventListener('load',async function(){
+
+        var style = document.createElement('style');
+            style.innerHTML =
+                ' .algoLoader {' + 
+                'color: #000000;'+
+                'font-size: 20px;'+
+                'margin: 100px auto;'+
+               ' width: 1em;'+
+                'height: 1em;'+
+                'border-radius: 50%;'+
+                'position: relative;'+
+               ' text-indent: -9999em;'+
+               ' -webkit-animation: load4 1.3s infinite linear;'+
+                'animation: load4 1.3s infinite linear;'+
+               ' -webkit-transform: translateZ(0);'+
+                '-ms-transform: translateZ(0);'+
+               ' transform: translateZ(0);'+
+'}'+
+'@-webkit-keyframes load4 {'+
+  '0%,'+
+  '100% {'+
+    'box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;'+'}'+
+  '12.5% {'+
+    'box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;'+
+'  }'+
+  '25% {'+
+    'box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;'
+'  }'+
+ ' 37.5% {'+
+   ' box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;'
+  '}'+
+ ' 50% {'+
+    'box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;'+
+  '}'+
+  '62.5% {'+
+    'box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;'
+  '}'+
+  '75% {'+
+    'box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;'+
+  '}'+
+  '87.5% {'+
+  '  box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;'+
+ ' }'+
+'}'+
+'@keyframes load4 {'+
+  '0%,'+
+  '100% {'
+   ' box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;'+
+  '}'+
+  '12.5% {'+
+    'box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;'+
+  '}'+
+  '25% {'+
+    'box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;'+
+  '}'+
+  '37.5% {'+
+    'box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;'+
+  '}'
+  '50% {'+
+ '   box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;'+
+ ' }'+
+ ' 62.5% {'+
+    'box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;'+
+ ' }'+
+  '75% {'+
+   ' box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;'+
+  '}'+
+ ' 87.5% {'+
+   ' box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;'+
+ ' }};'
+
+ var ref = document.querySelector('script');
+ ref.parentNode.insertBefore(style, ref);
+
+    var recoveredAccount1 = algosdk.mnemonicToSecretKey("portion never forward pill lunch organ biology" +
+    " weird catch curve isolate plug innocent skin grunt" +
+    " bounce clown mercy hole eagle soul chunk type absorb trim");
+    var recoveredAccount2={addr:""}
+    var asssetCreatorAddress = "VTAUB5LOVTWKXICWEDBO5UG2JNNGEW7ULRB4PQB23DGRKSAXDVPORQNZJE"
+    var artist1Address= "M2WNUPEYKJTIQBYG2IUGXE3FWHN6EBEA6S7AF63O7OPBMUUEMB2UBYLI5Q";
+    var artist2Address = "NL2YCOBKWPI35PYSU4LGNM2II4PW7C766GJCRLFSDNVS47AV2MRHZ7A7FI";
+    var artist3Address= "FUZIWXSI2RTPW65MG475T7XKFC4O6LFPNG6J33RN4U2O4VZZQWMGFU6M24";
+    var artist4Address = "LJX5SYXKAIXZ5PXBHJA4KBVHRHV5DWJ2MUBC2CWDAQIYFYOQVENLC4CYO4";
+    var artist5Address = "2A7KDBW3BJMGNNKF563QOVYC466POE5MTFXUVODNPTZRMDFZTHFYC7ZJFM";
+    var artist6Address = "3FT4J6OASHOTMXUVNJO5NC4WBQ75WUCBZFLFFL5BJPE6SRXFXOJ2RYYP7E";
+    var artist7Address = "YH3UYXKH6RDLDKNVVZCLXJI3HPNLXYKT5I7UPDV33UQCFO7CYIU6KJN6BE";
+    var artist8Address = "SDLB42ELW7ZDAYLSANL5AWLM7CKJPAW5FVNYE3PBCMVC7JMWHEZ7NKPPOE"
+    var artist9Address = "SEUECQKE4P7UEPBRA4GNXHVCGAIRRACDZHOONP6Q4HKT3YRYA3LKS62E7I"
+    var replicantClawedbackAddreses =  ['I4ZSBYX3VWK2YTXJUL5OYGHSGWMDFUKAGIYVMKJ2IYKL6BAIMOIDXMQXIU',
+        'WOJ2IVQZQPL6AUGFQRS3MBXMZU5OHHJF7TTYMS6AJYCFOVFNIVGP5LEMPY',
+        'A2SVRPFMMK4C3UT7DH2K2T67ZSAWULRWWJ2MXM35KP4PUXACVV36H3TJ3Q',
+        '4QHKQTHOPX56EZ4BHB3XQH4A67XTC5W6RQWVLHVML24TZXWC6SI7D7TRUA',
+        'CKU7IAJAOJCD7O2GUQU4AJAD2RAR75MXJOOV33DBYATZNC5BSHTTEOT6IE',
+        'GA7AGJTASCQVXRCN37UWOVJABR6R3ZV3I2CYL3RXWDPYM62OKRNCL3EPHI',
+        '7BSRUQJ6HISD64J6NDRQUPTJ4V2KID2CRWJDLGYVVJSCIDOTTXOBN7DRBM',
+        'GV45TIXAM5UKCDJAYYX5YZDMKCAPY5JKOQ6AFCBQ74A7AABSRTK24HLL6I',
+        'WI4WKILJUFLC2B2ZJCAGXLDIIDDL2ANMYVOVAWRG6UC5D47VHFNNJVK6LI',
+        'FAZ5K4IUAU3QHPYL6BNNMIZNJLCCH23CNU5ZM6TIWMQWINMQZLOAW4BTZQ',
+        'OLDAM3X7AB27UELP6PB2IFOMQDPQGVXTYQVB3ZPF7CCNOPPNKXUP77NXWA',
+        'PLKZCOUQN7XKM5JWPHLA4QMFPGK5UBFDG5CJL3NWR5TGHXPCMZN46QXUOY',
+        '4LEGSUWJ7AQC6PF6G2YGE44MAVZHQVESPU32L5DMGJ624AFGVF6OPXVK4Y',
+        'RC57SFERNNM5W635Z7RVYYXKHLCFHXEPLJNMVC7NMUDHIHZP42KV3E6QA4',
+        'IYXVCSD6HQVB3H3LXEZYR5YOKFX3ZRD6UVED3BUDJAQYGP6RRYZUPBY4ZU',
+        'RDZU72UJ37724XIMMRCEHS3XB6B6SZZ7SVXGYRFWU5PZNY4EJU22HRO5NE',
+        '7H4RWJ65Y65THWFF3OR3Q74PRGVMPZWVMFCKBEICUXSQRLPFH6QXMIYXRE',
+        'AYD43MHQB7RSMD6XAWLTH7CRPUAVINRLOUYHHKUEXYO5QKGGUWDAN63WJU',
+        'GYPGD6AY32GRHNPMWL4LNMJLS3UYNEWI5QQVYVRUS75HD2CPKBFQPHOEJA',
+        'SM6VTVE4YFRJYK4ZZCZ7PIQMNZ4KXZD3KTHCWR54LGY2MPHMZTC2MP2KXM',];
+
+    var replicantBase64Addresses = ['BDEgMgMSMQkyAxIQMRGB5qa/uAESEDMBGIG4wsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB56a/uAESEDMBGIG5wsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB6Ka/uAESEDMBGIG6wsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB6aa/uAESEDMBGIG7wsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB6qa/uAESEDMBGIG8wsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB66a/uAESEDMBGIG9wsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB7Ka/uAESEDMBGIG+wsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB7aa/uAESEDMBGIG/wsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB7qa/uAESEDMBGIHAwsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB76a/uAESEDMBGIHBwsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB8Ka/uAESEDMBGIHCwsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB8aa/uAESEDMBGIHDwsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB8qa/uAESEDMBGIHEwsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB86a/uAESEDMBGIHFwsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB9Ka/uAESEDMBGIHGwsa4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB9aa/uAESEDMBGIG928a4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB8am/uAESEDMBGIG+28a4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB8qm/uAESEDMBGIG/28a4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB86m/uAESEDMBGIHA28a4ARIQQw==',
+                                    'BDEgMgMSMQkyAxIQMRGB9Km/uAESEDMBGIHB28a4ARIQQw==',];
+                                     
+    var actualAssetPrice = 2424000000
+    var artistAmount = ((7.778/100)*actualAssetPrice);
+    var creatorAmount = 727300000; //((30/100)*actualAssetPrice);
+    console.log(artistAmount);
+    console.log(creatorAmount);
+    const token = { 'X-API-Key':'QIbtJ2qVvz8IUKIJiprmm2pRf2yutg14eOS98d15'};
+    const server = "https://mainnet-algorand.api.purestake.io/ps2";
+    const port = '';
+    const client = new algosdk.Algodv2(token, server, port);
+    let Buffer = buffer.Buffer
+    let program1 = new Uint8Array(Buffer.from(replicantBase64Addresses[0],"base64"));
+    let program2 = new Uint8Array(Buffer.from(replicantBase64Addresses[1],"base64"));
+    let program3 = new Uint8Array(Buffer.from(replicantBase64Addresses[2],"base64"));
+    let program4 = new Uint8Array(Buffer.from(replicantBase64Addresses[3],"base64"));
+    let program5 = new Uint8Array(Buffer.from(replicantBase64Addresses[4],"base64"));
+    let program6 = new Uint8Array(Buffer.from(replicantBase64Addresses[5],"base64"));
+    let program7 = new Uint8Array(Buffer.from(replicantBase64Addresses[6],"base64"));
+    let program8 = new Uint8Array(Buffer.from(replicantBase64Addresses[7],"base64"));
+    let program9 = new Uint8Array(Buffer.from(replicantBase64Addresses[8],"base64"));
+    let program10 = new Uint8Array(Buffer.from(replicantBase64Addresses[9],"base64"));
+    const programs = [program1,program2,program3,program4,program5,program6,program7,program8,program9,program10]
+    const lsig1 = algosdk.makeLogicSig(program1);   
+    const lsig2 = algosdk.makeLogicSig(program2);   
+    const lsig3 = algosdk.makeLogicSig(program3);   
+    const lsig4 = algosdk.makeLogicSig(program4);   
+    const lsig5 = algosdk.makeLogicSig(program5);   
+    const lsig6 = algosdk.makeLogicSig(program6);   
+    const lsig7 = algosdk.makeLogicSig(program7);   
+    const lsig8 = algosdk.makeLogicSig(program8);   
+    const lsig9 = algosdk.makeLogicSig(program9);   
+    const lsig10 = algosdk.makeLogicSig(program10);   
+    const lsigs =[lsig1, lsig2, lsig3, lsig4, lsig5, lsig6, lsig7, lsig8, lsig9, lsig10];
+    let note = new Uint8Array(Buffer.from("","base64"));
+    var addresses = []
+    var addressToUse;
+    let  params={};
+    let allAssets = [386913126, 386913127, 386913128, 386913129, 386913130, 386913131, 386913132, 386913133, 386913134, 386913135, 386913136, 386913137, 386913138, 386913139, 386913140, 386913141, 386913521, 386913522, 386913523, 386913524];
+    let assetNames = [`EPOCH, "REPLICANTS," 1/20`, 'EPOCH, "REPLICANTS," 2/20', 'EPOCH, "REPLICANTS," 3/20',
+                       'EPOCH, "REPLICANTS," 4/20', 'EPOCH, "REPLICANTS," 5/20' , 'EPOCH, "REPLICANTS," 6/20', 
+                       'EPOCH, "REPLICANTS," 7/20', 'EPOCH, "REPLICANTS," 8/20', 'EPOCH, "REPLICANTS," 9/20',
+                       'EPOCH, "REPLICANTS," 10/20','EPOCH, "REPLICANTS," 11/20','EPOCH, "REPLICANTS," 12/20',
+                       'EPOCH, "REPLICANTS," 13/20', 'EPOCH, "REPLICANTS," 14/20', 'EPOCH, "REPLICANTS," 15/20', 
+                       'EPOCH, "REPLICANTS," 16/20', 'EPOCH, "REPLICANTS," 17/20', 'EPOCH, "REPLICANTS," 18/20',
+                       'EPOCH, "REPLICANTS," 19/20', 'EPOCH, "REPLICANTS," 20/20'];
+    let assetName = "";
+    let assetId = -1;
+    let appIds =   [387031352, 387031353, 387031354, 387031355, 387031356, 387031357, 387031358, 387031359, 387031360, 387031361, 387031362, 387031363, 387031364, 387031365, 387031366, 387034557, 387034558, 387034559, 387034560, 387034561,]
+    let button = document.getElementById("acquireReplicantNft");
+    let indexToUse = -1;
+    // console.log(myAlgoConnect)
+    // console.log(myalgo);
+    var myalgoConnect = new MyAlgoConnect();
+    const printCreatedApp = async function (algodclient, account, assetid) {
+    // note: if you have an indexer instance available it is easier to just use this
+    //     let accountInfo = await indexerClient.searchAccounts()
+    //    .assetID(assetIndex).do();
+    // and in the loop below use this to extract the asset for a particular account
+    // accountInfo['accounts'][idx][account]);
+    let accountInfo = {}
+    try{
+      accountInfo =  await algodclient.accountInformation(account).do();
+    }catch(error){
+      console.error(error);
+      alert(error)
+      body.removeChild(parentDiv);
+    }
+   
+    console.log(accountInfo);
+    let retVal = "";
+    for (idx = 0; idx < accountInfo['created-apps'].length; idx++) {
+        let scrutinizedAsset = accountInfo['created-apps'][idx];
+        if (scrutinizedAsset['id'] == assetid) {
+            let myparms = JSON.stringify(scrutinizedAsset['params'], undefined, 2);
+            scrutinizedAsset.params["global-state"].map((el)=>{
+              let key = atob(el.key);
+              if(key=="edition"){
+                retVal= el.value.uint
+              }
+            })
+            break;
+        }
+    }
+    return retVal;
+};
+
+
+const printCreatedAsset = async function (algodclient, account, assetid) {
+    let accountInfo = await algodclient.accountInformation(account).do();
+    for (idx = 0; idx < accountInfo['created-assets'].length; idx++) {
+        let scrutinizedAsset = accountInfo['created-assets'][idx];
+        if (scrutinizedAsset['index'] == assetid) {
+            console.log("AssetID = " + scrutinizedAsset['index']);
+            let myparms = JSON.stringify(scrutinizedAsset['params'], undefined, 2);
+            console.log("parms = " + myparms);
+            break;
+        }
+    }
+};
+
+const printAssetHolding = async function (algodclient, account, assetIds) {
+    // note: if you have an indexer instance available it is easier to just use this
+    //     let accountInfo = await indexerClient.searchAccounts()
+    //    .assetID(assetIndex).do();
+    // and in the loop below use this to extract the asset for a particular account
+    // accountInfo['accounts'][idx][account]);
+    return new Promise(async(resolve,reject)=>{
+      try{
+        let accountInfo = await algodclient.accountInformation(account).do();
+        for (idx = 0; idx < accountInfo['assets'].length; idx++) {
+        let scrutinizedAsset = accountInfo['assets'][idx];
+        for (aIdIndex = 0; aIdIndex < assetIds.length; aIdIndex++){
+          if (scrutinizedAsset['asset-id'] == assetIds[aIdIndex]) {
+            let myassetholding = JSON.stringify(scrutinizedAsset, undefined, 2);
+            console.log("assetholdinginfo = ", myassetholding);
+            let parsedAssetHolding = JSON.parse(myassetholding);
+            if(parsedAssetHolding["amount"] >= 1){
+              resolve(JSON.parse(myassetholding));
+              break;
+            }  
+        }
+        }   
+    }
+      }catch(error){
+        reject(error);
+        console.error(error);
+        body.removeChild(parentDiv);
+      }
+    })
+  
+};
+       
+    button.addEventListener("click",async function(){
+        console.log("Clicked");
+        var x = document.getElementsByTagName("body");
+        console.log(x);
+        console.log(x[0]);
+        let body = x[0];
+        let parentDiv = document.createElement("div");
+        parentDiv.style.border="solid 2px #ccc";
+
+        parentDiv.style.left="25%";
+        parentDiv.style.top="30%";
+        parentDiv.style.position="absolute";
+        parentDiv.style.elevation="100";
+        parentDiv.style.width="40%";
+        parentDiv.style.height="400px";
+        parentDiv.style.background="#fff";
+        parentDiv.classList.add("algoCardContainer");
+        let algoLoaderDiv = document.createElement("div");
+        algoLoaderDiv.classList.add("algoLoader");
+        let infoP = document.createElement("P");
+        infoP.style.textAlign="center"
+        infoP.classList.add("algoInfoText");
+        infoP.innerText="NFT Acquisition in Progress";
+        parentDiv.append(algoLoaderDiv);
+        parentDiv.append(infoP);
+        body.append(parentDiv)
+
+
+      
+        let assetHolding ={} 
+        try{ 
+          assetHolding =  await printAssetHolding(client,asssetCreatorAddress,allAssets);
+          assetId = assetHolding['asset-id'];
+          assetName = assetNames[allAssets.indexOf(assetId)];
+          console.log(assetHolding);
+        }catch(error){
+          alert(error);
+          return;
+        }
+
+        console.log({assetId,assetName}, "Asset to purchase" );
+      
+    
+      if(assetId==-1){
+        alert("All 20 editions are sold out. Thank you and please return for future EPOCH NFT releases.");
+        body.removeChild(parentDiv);
+        return;
+      }else{
+        infoP.innerText=`EPOCH NFT edition ${assetName} acquisition in progress`;
+      }
+       indexToUse = allAssets.indexOf(assetId);
+
+      myalgoConnect.connect().then(async(addresses)=>{
+        if(addresses.length>1){
+      addressToUse = prompt("Enter My Algo wallet desired Address");
+      }else{
+        addressToUse = addresses[0].address
+      }
+
+
+      // try{
+      //     let account_info = (await client.accountInformation(addressToUse).do());
+      //     if(account_info.amount<2424000000){
+      //       console.log(account_info);
+      //     alert("You do not have enough funds to purchase NFT");
+      //     body.removeChild(parentDiv);
+      //     return;
+      //     };
+         
+      //   } catch(error){
+      //     console.error(error);
+      //     alert(error);
+      //     body.removeChild(parentDiv);
+      //     return;
+      //   } 
+
+  
+    recoveredAccount2.addr=addressToUse;
+    var addressFound = 0;
+    console.log(addresses)
+    addresses.map((el)=>{
+        if(el.address==addressToUse){
+            addressFound = 1;
+        }
+
+    });
+
+    if(addressFound == 0){
+        alert("Cant find address, refresh to continue")  
+     body.removeChild(parentDiv);
+        return;   
+    }
+        
+     
+              console.log(recoveredAccount2.addr)
+
+              try {
+                params = await client.getTransactionParams().do();
+                }
+                catch(error) {
+                  console.error("Error ocurred ", error);
+                    alert(error)
+                    body.removeChild(parentDiv);
+                    return;
+                }
+             
+            
+            let optInTxn =  optInAddress(assetId,recoveredAccount2.addr);
+            myalgoConnect.signTransaction(optInTxn).then(async(signedOptTxn)=>{
+            console.log(signedOptTxn);
+            infoP.innerText="Opting Users Address to NFT"
+            let optSentTx={}
+            try{
+              optSentTx=await client.sendRawTransaction(signedOptTxn.blob).do();
+              }catch(error){
+                console.error("Error ocurred ", error);
+                    alert(error)
+                    body.removeChild(parentDiv);
+                    return;
+              }
+            console.log("sent opt in transaction with txId: "+ optSentTx.txId);
+
+            infoP.innerText="User's Wallet Address Opted In to NFT"
+            //transaction 1 to send asset
+            var assetSendTxn =   sendAsset(assetId,asssetCreatorAddress,recoveredAccount2.addr,1,client);
+            // transaction 2 to send  30% of the asset
+            var epochTrans =  sendFunds(recoveredAccount2,asssetCreatorAddress,creatorAmount,client)
+            //transaction 3 to make the application call
+            var appCallTxn =  makeApplicationCallTransaction(recoveredAccount2.addr,appIds[indexToUse],[new TextEncoder().encode("sell_nft")])
+            // transaction 4 to 10 to send the funds to the remaining ten addresses
+            var royaltyTransaction1 =  sendFunds(recoveredAccount2,artist1Address,artistAmount);
+            var royaltyTransaction2 =  sendFunds(recoveredAccount2,artist2Address,artistAmount);
+            var royaltyTransaction3 =  sendFunds(recoveredAccount2,artist3Address,artistAmount);
+            var royaltyTransaction4 =  sendFunds(recoveredAccount2,artist4Address,artistAmount);
+            var royaltyTransaction5 =  sendFunds(recoveredAccount2,artist5Address,artistAmount);
+            var royaltyTransaction6 =  sendFunds(recoveredAccount2,artist6Address,artistAmount);
+            var royaltyTransaction7 =  sendFunds(recoveredAccount2,artist7Address,artistAmount);
+            var royaltyTransaction8 =  sendFunds(recoveredAccount2,artist8Address,artistAmount);
+            var royaltyTransaction9 =  sendFunds(recoveredAccount2,artist9Address,artistAmount);
+           
+            let txns = [assetSendTxn,appCallTxn,epochTrans,royaltyTransaction1,royaltyTransaction2,royaltyTransaction3,royaltyTransaction4,royaltyTransaction5,royaltyTransaction6,royaltyTransaction7,royaltyTransaction8,royaltyTransaction9];
+            let groupId = algosdk.computeGroupID(txns);
+            txns = txns.map((el)=>{
+            el.group=groupId;
+            return el;
+            });
+          
+             let signedTxn0 =  {};
+             signedTxn0 = algosdk.signLogicSigTransaction(txns[0], lsigs[indexToUse]);
+            //  if(allAssets.indexOf(assetId) == 0){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig1)
+            //     console.log(signedTxn0,"signed txn0")
+            //  }else if(allAssets.indexOf(assetId) == 1){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig2)
+            //  }else if(allAssets.indexOf(assetId) == 2){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig3)
+            //  }else if(allAssets.indexOf(assetId) == 3){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig4)
+            //  }else if(allAssets.indexOf(assetId) == 4){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig5)
+            //  }else if(allAssets.indexOf(assetId) == 5){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig6)
+            //  }else if(allAssets.indexOf(assetId) == 6){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig7)
+            //  }else if(allAssets.indexOf(assetId) == 7){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig8)
+            //  }else if(allAssets.indexOf(assetId) == 8){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig9)
+            //  }else if(allAssets.indexOf(assetId) == 9){
+            //     signedTxn0  =  algosdk.signLogicSigTransaction(txns[0], lsig10)
+            // }else{
+            //     alert("Something went wromg");
+            //     return;
+            // }             
+
+           
+
+
+
+          myalgoConnect.signTransaction([txns[1], txns[2], txns[3],txns[4],txns[5],txns[6],txns[7],txns[8],txns[9],txns[10],txns[11]]).then(async(signedTxns)=>{
+            console.log(signedTxns)
+              let blobs = signedTxns.map((el,index)=>{
+                  return el.blob
+              })
+          let signedTest = [signedTxn0.blob,...blobs];
+          console.log(signedTest)
+          let txTest={};
+          try{
+            txTest=(await client.sendRawTransaction(signedTest).do());
+          }catch(error){
+            console.error("Error ocurred ", error);
+                    alert(error)
+                    body.removeChild(parentDiv);
+                    return;
+            }
+          console.log("Transaction : " + txTest.txId);
+          if(txTest.txId!=null&&txTest.txId!=undefined){
+              infoP.innerText="EPOCH NFT acquired! Transaction TxID: "+ txTest.txId;
+            alert("EPOCH NFT acquired! Transaction TxID: "+ txTest.txId );
+            body.removeChild(parentDiv);
+          }else{
+              alert("Transaction Failed");
+              body.removeChild(parentDiv);
+          } 
+          }).catch((error)=>{
+            console.error("Error ocurred ", error);
+                alert(error)
+                body.removeChild(parentDiv);
+          });
+      
+
+            }).catch((error)=>{
+              console.error("Error ocurred ", error);
+                alert(error)
+                body.removeChild(parentDiv);
+            }); 
+           
+              }).catch((error)=>{
+                console.error("Error ocurred ", error);
+                alert(error)
+                body.removeChild(parentDiv);
+              })
+
+    })
+
+
+     function sendAsset(assetID,revocationTarget,recipient, units,algodClient){   
+        closeRemainderTo = undefined;
+        //Amount of the asset to transfer
+        amount = units;
+        console.log(new Uint8Array(Buffer.from('"REPLICANT – NFT"')));
+        // signing and sending "txn" will send "amount" assets from "sender" to "recipient"
+        let xtxn = algosdk.makeAssetTransferTxnWithSuggestedParams(replicantClawedbackAddreses[indexToUse], recipient, closeRemainderTo, revocationTarget,
+                amount,  new Uint8Array(Buffer.from('"REPLICANT – NFT"')), assetID, params);
+        let program1 = new Uint8Array(Buffer.from(replicantBase64Addresses[indexToUse],"base64"))
+        const lsig1 = algosdk.makeLogicSig(program1);   
+       console.log(lsig1.address());
+        // let rawSignedTxn = algosdk.signLogicSigTransactionObject(xtxn, lsig1)
+        console.log(xtxn)
+        return xtxn;
+    }
+
+     function sendFunds(sender,receiver,amount){
+      let    txn = {
+            ...params,
+            fee: 1000,
+            flatFee: true,
+            type: 'pay',
+            from: sender.addr,
+            to:  receiver,
+            amount: amount,
+            note: new Uint8Array(Buffer.from('Replicant – NFT", 2001'))
+    };
+     
+        return txn;
+    }
+
+     function makeApplicationCallTransaction(sender,appId,appArgs){
+        let txn = {
+            type: "appl",
+            appOnComplete: 0,
+            from: sender,
+            appIndex: appId,
+            fee: 1000,
+            flatFee: true,
+            ...params,
+            note: new Uint8Array(Buffer.from('Replicant – NFT", 2001')),
+            appArgs
+           };
+
+        return txn;
+    }
+
+     function optInAddress(assetID,address){
+     
+        let sender = address;
+        let recipient = sender;
+        
+        let revocationTarget = undefined;
+       
+        let closeRemainderTo = undefined;
+        amount = 0;
+        let opttxn = {
+          ...params,
+          fee: 1000,
+          flatFee: true,
+          type: 'axfer',
+          assetIndex: assetID,
+          from: sender,
+          to:  recipient,
+          amount: 0,
+          note: new Uint8Array(Buffer.from('Replicant – NFT", 2001'))
+        };
+        console.log(opttxn);
+            return opttxn;
+
+    }
+});
+
+  
+    </script>
+</html>

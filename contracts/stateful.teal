@@ -291,6 +291,14 @@ load 10
 int 1000
 ==
 &&
+//Save new owner
+byte "owner"
+gtxn 0 AssetReceiver
+app_global_put
+//Freeze contract
+byte "contract_frozen"
+int 1
+app_global_put
 return
 
 
